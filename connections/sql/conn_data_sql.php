@@ -1,29 +1,25 @@
 <?php
-require_once $dir_fc."connections/conn_config.php";
+require_once $dir_fc."connections/sql/conn_config_sql.php";
 
-class BD
-{
+class BD_SQL {
 
 	private $_dbUser;
 	private $_dbPassword;
 	private $_dbHost;	
-	private $_dbPort;
 	protected $_dbName;
-	public $_conn_bio;
+	public $_connection;
 	private static $_instance;
 
 	public function __construct()
 	{
 		try {
-			$this->_dbHost = DB_HOST;			
-			$this->_dbPort = DB_PORT;
-			$this->_dbUser = DB_USER;
-			$this->_dbPassword = DB_PASS;
-			$this->_dbName = DB_NAME;
+			$this->_dbHost = DB_HOST_SQL;			
+			$this->_dbUser = DB_USER_SQL;
+			$this->_dbPassword = DB_PASS_SQL;
+			$this->_dbName = DB_NAME_SQL;
 
-			$this->_conn_bio = new \PDO('mysql:host='.$this->_dbHost.'; port='.$this->_dbPort.'; dbname='.$this->_dbName, $this->_dbUser, $this->_dbPassword);
-			$this->_conn_bio->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-			$this->_conn_bio->exec("SET CHARACTER SET utf8");
+			$this->_connection = new \PDO('sqlsrv:Server='.$this->_dbHost.';Database='.$this->_dbName, $this->_dbUser, $this->_dbPassword);
+			$this->_connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		}
 		catch (\PDOException $e)
 		{
@@ -34,12 +30,12 @@ class BD
 
 	public function prepare($sql)
 	{
-		return $this->_conn_bio->prepare($sql);
+		return $this->_connection->prepare($sql);
 	}
 
 	public function conexion()
 	{
-		return $this->_conn_bio;
+		return $this->_connection;
 	}
 
 	//[instance singleton]
@@ -60,7 +56,7 @@ class BD
 
 	public function escape($string)
 	{
-		return $this->_conn_bio->quote($string);
+		return $this->_connection->quote($string);
 	}
 }
 

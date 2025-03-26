@@ -21,7 +21,7 @@ try {
 
     $arrayUserLogin = array(
         $cFn->get_sub_string($txtUser,40),
-            hash('sha256',$txtPass)
+            MD5($txtPass)
     );
 
     $selectUser = $cUsers->getUser( $arrayUserLogin );
@@ -48,11 +48,11 @@ try {
     
     $_SESSION[s_ncompleto]  = $datos['nombrecompleto'];
     $_SESSION[s_nombre]     = $datos['nombre'];
-    $_SESSION[s_f_i]        = $datos['fecha_ingreso'];
+    // $_SESSION[s_f_i]        = $datos['fecha_ingreso'];
     $_SESSION[id_usr]       = $datos['id_usuario'];
     $_SESSION[user]         = $datos['usuario'];
     $_SESSION[id_rol]       = $datos['id_rol'];
-    $_SESSION[id_zona]      = $datos['id_zona'];
+    // $_SESSION[id_zona]      = $datos['id_zona'];
     $_SESSION[rol]          = $datos['rol'];
     $_SESSION[admin]        = $datos['admin'];                   
 
